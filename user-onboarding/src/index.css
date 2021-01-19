@@ -1,0 +1,9 @@
+body {
+    background: rgb(241, 240, 255);
+    color: purple
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+}
