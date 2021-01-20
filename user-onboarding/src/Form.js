@@ -2,16 +2,16 @@ import React, {useState, useEffect} from 'react';
 import * as yup from 'yup';
 import axios from 'axios';
 
-const validationSchema = yup.object().shape({
+const validationSchema = yup.object({
     user: yup.string().required('username is required'),
     email: yup.string().email('Must be a valid email').required('email is required'),
+    terms: yup.boolean().oneOf([true], 'You must agree to the terms'),
+    role: yup.string().oneOf(['1', '2', '3', '4', '5'], 'You need to make atleast one selection'),
     password: yup.string().required('password is required')
     .min(8, "Minimum 8 characters required")
     .matches(/(?=.*[a-z])/, 'one lowercase required!')
     .matches(/(?=.*[A-Z])/, 'one uppercase required!')
     .matches(/(?=.*[0-9])/, 'one numeric character required'),
-    terms: yup.boolean().oneOf([true], 'You must agree to the terms'),
-    role: yup.string().oneOf(['1', '2', '3', '4', '5'], 'You need to make atleast one selection'),
 })
 
 const Form = (props) => {
@@ -37,7 +37,9 @@ const Form = (props) => {
     const setFormErrors = (name, value) => {
         yup.reach(validationSchema, name).validate(value)
         .then(() => setErrors({...errors, [name] : ''}))
-        .catch(err => setErrors({...errors, [name]: err.errors[0]}))
+        .catch(err => {
+            setErrors({...errors, [name]: err.errors})
+        })
     }
 
     const change = event => {
@@ -58,7 +60,6 @@ const Form = (props) => {
 
     return (
         <form>
-            <h3>Sign Up Form</h3>
             <label>Name: 
                 <input onChange={change} value={form.user} name='user' type='text'/>
             </label>
