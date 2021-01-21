@@ -50,6 +50,11 @@ describe('Forms App', () => {
     })
 
     it('make sure that validation error pops up if an input field is empty', () => {
-        
+        nameInputField().type('Satoshi Nakamoto')
+        emailInput().type('satoshi@invisible.com')
+        passwordInput().type('Sat0shi4')
+        checkBox().check()
+        dropDown().select('Educator')
+        passwordInput().clear()
     })
 })
