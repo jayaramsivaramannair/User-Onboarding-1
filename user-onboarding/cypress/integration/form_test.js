@@ -13,6 +13,7 @@ describe('Forms App', () => {
     const passwordInput = () => cy.get(':nth-child(3) > input')
     const checkBox = () => cy.get(':nth-child(4) > input')
     const dropDown = () => cy.get('select')
+    const submitButton = () => cy.get('button')
 
     it('make sure we can input a name', () => {
         const name = 'Jayaram Sivaraman Nair'
@@ -37,5 +38,18 @@ describe('Forms App', () => {
     it('make sure to check that a role can selected from dropdown', () => {
         dropDown().select('Software Engineer').should('have.value', '3')
         dropDown().select('--Select One--')
+    })
+
+    it('make sure that the form can be submitted', () => {
+        nameInputField().type('Tom and Jerry')
+        emailInput().type('jerry@mouseway.com')
+        passwordInput().type('JerryL0vesTom')
+        checkBox().check()
+        dropDown().select('Software Engineer')
+        submitButton().click()
+    })
+
+    it('make sure that validation error pops up if an input field is empty', () => {
+        
     })
 })
